@@ -9,8 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/store": "^2.0.2",
     "ant-design-vue": "4.x",
+    "axios": "^1.4.0",
     "config": "^3.3.9",
+    "pinia": "^2.1.6",
+    "store": "^2.0.12",
     "url": "^0.11.1",
     "vue": "^3.3.4",
     "vue-router": "4"

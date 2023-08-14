@@ -1,52 +1,62 @@
 <script lang="ts" setup>
-import Logo from '@/components/logo.vue';
-import { MailTwoTone, LockTwoTone } from '@ant-design/icons-vue'
-import { TypographyText } from 'ant-design-vue'
+import Logo from '@/components/common/logo.vue'
+import { MailTwoTone, LockTwoTone, ShopTwoTone } from '@ant-design/icons-vue'
 import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/pinia/useAuth'
 const router = useRouter()
 
 interface FormState {
+  storeCode: string
   email: string
   password: string
 }
+
+const storeCode = router.currentRoute.value.query.storeCode as string
 const formState = reactive<FormState>({
+  storeCode,
   email: '',
   password: '',
 })
-const onFinish = (values: any) => {
-  console.log('Success:', values)
+
+const authStore = useAuthStore()
+const { login } = authStore
+
+const onFinish = async (values: any) => {  
+  await login(values)
+  router.push('/')
 }
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo)
 }
 const disabled = computed(() => {
-  return !(formState.email && formState.password)
+  return !(formState.email && formState.password && formState.storeCode)
 })
-const storeCode = computed(() => {
-  return router.currentRoute.value.params.storeCode || ''
-})
+
 </script>
 
 <template>
   <a-row justify="center" align="middle" style="height: 100vh">
     <a-col>
       <Logo />
-
-      <TypographyText>
-        Store - <b>{{ storeCode }}</b>
-      </TypographyText>
-
-      <br />
-      <br />
-
       <a-form
         :model="formState"
         autocomplete="off"
         @finish="onFinish"
         @finishFailed="onFinishFailed"
       >
+        <a-form-item
+          name="storeCode"
+          :rules="[{ required: true, message: 'Please input store code!' }]"
+        >
+          <a-input v-model:value="formState.storeCode" placeholder="Store code">
+            <template #prefix>
+              <ShopTwoTone />
+            </template>
+          </a-input>
+        </a-form-item>
+        
         <a-form-item
           name="email"
           :rules="[{ required: true, message: 'Please input your email!' }]"
