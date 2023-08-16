@@ -44,6 +44,9 @@ const handleMenuClick = (event: MenuClickEvent) => {
 const siderStyle: CSSProperties = {
   padding: '20px',
   background: '#fff',
+  borderTopRightRadius: '20px',
+  borderBottomRightRadius: '20px',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
 }
 
 const menuStyle: CSSProperties = {

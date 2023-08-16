@@ -11,19 +11,22 @@ import storejs from 'store'
 const routes = [
   {
     path: '/', component: Dashboard,
-    meta: { requiredAuth: true },
+    meta: { requiredAuth: true, title: 'Dashboard' },
     children: [
       {
         path: '/users',
         component: Users,
+        meta: { title: 'Users' },
       },
       {
         path: '/reviews',
         component: Reviews,
+        meta: { title: 'Reviews' },
       },
       {
         path: '/developer',
         component: Developer,
+        meta: { title: 'Developer' },
       }
     ],
   },

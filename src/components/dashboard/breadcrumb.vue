@@ -9,7 +9,7 @@ const breadcrumbPaths = ref<string[]>([])
 watch(
   () => router.currentRoute.value.path,
   (path) => {
-    const paths = path.split('/').filter((path) => path !== '')
+    const paths = path.split('/').filter((path) => path !== '').map((path) => path[0].toUpperCase() + path.slice(1))
     breadcrumbPaths.value = paths
   },
   { immediate: true },

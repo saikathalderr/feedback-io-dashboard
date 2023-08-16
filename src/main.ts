@@ -17,9 +17,10 @@ import {
   LayoutHeader,
   Menu,
   MenuItem,
+  PageHeader,
   Row,
   Slider,
-  SubMenu
+  SubMenu,
 } from 'ant-design-vue'
 
 import App from './App.vue'
@@ -44,6 +45,7 @@ app.use(Layout)
 app.use(Menu)
 app.use(Breadcrumb)
 app.use(Slider)
+app.use(PageHeader)
 app.use(SubMenu)
 app.use(MenuItem)
 app.use(LayoutHeader)
