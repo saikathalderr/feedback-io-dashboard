@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { CSSProperties } from 'vue'
 import Sider from '@/components/dashboard/sider.vue'
+import Breadcrumb from '@/components/dashboard/breadcrumb.vue';
 
 const layoutStyle: CSSProperties = {
   height: '100vh',
@@ -12,11 +13,7 @@ const layoutStyle: CSSProperties = {
     <a-layout>
       <Sider />
       <a-layout style="padding: 0 24px 24px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>Home</a-breadcrumb-item>
-          <a-breadcrumb-item>List</a-breadcrumb-item>
-          <a-breadcrumb-item>App</a-breadcrumb-item>
-        </a-breadcrumb>
+        <Breadcrumb />
         <a-layout-content
           :style="{
             background: '#fff',

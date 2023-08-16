@@ -3,13 +3,20 @@ import { computed, ref, CSSProperties, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/pinia/useAuth'
 import { useRouter } from 'vue-router'
+import type { ItemType } from 'ant-design-vue';
 
-type Menu = {
-  title: string
+type Menu = ItemType & {
   path: string
 }
 
-const selectedKeys = ref<string[]>(['1'])
+type MenuClickEvent = {
+  key: string
+  keyPath: string[]
+  item: Menu
+  domEvent: Event
+}
+
+const selectedKeys = ref<string[]>([])
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -24,14 +31,14 @@ watch(
   () => router.currentRoute.value.path,
   (path) => {
     const menu = menus.value.findIndex((menu) => menu.path === path)
-    console.log(menu);
-    
+    selectedKeys.value = [String(menu + 1)]
   },
   { immediate: true },
 )
 
-const handleMenuClick = (menu: Menu) => {
-  router.push(menu.path)
+const handleMenuClick = (event: MenuClickEvent) => {
+  const path = event.item.path  
+  router.push(path)
 }
 
 const siderStyle: CSSProperties = {
@@ -44,28 +51,17 @@ const menuStyle: CSSProperties = {
   borderRight: 0,
 }
 
-const menuItemStyle: CSSProperties = {
-  fontWeight: 'normal',
-}
 </script>
 
 <template>
   <a-layout-sider width="220" :style="siderStyle">
     <a-menu
-      :multiple="false"
       v-model:selectedKeys="selectedKeys"
       mode="inline"
       theme="light"
       :style="menuStyle"
-    >
-      <a-menu-item
-        @click="handleMenuClick(menu)"
-        v-for="(menu, idx) in menus"
-        :style="menuItemStyle"
-        :key="idx + 1"
-      >
-        {{ menu.title }}
-      </a-menu-item>
-    </a-menu>
+      :items="menus"
+      @click="handleMenuClick($event)"
+    />
   </a-layout-sider>
 </template>
