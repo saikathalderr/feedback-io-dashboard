@@ -1,8 +1,11 @@
+import axios, { AxiosError } from 'axios'
+
 import { $authStoreKey } from '@/storejs/keys'
 import { _apiLoginUrl } from './api'
-import axios from 'axios'
 import { defineStore } from 'pinia'
 import storejs from 'store'
+import { useErrorStore } from './useError'
+import { useNotificationStore } from './useNotification'
 
 type TAuthState = {
   token: string
@@ -10,7 +13,7 @@ type TAuthState = {
   firstName: string
   lastName: string
   email: string
-  menu: string[]
+  menus: string[]
 }
 
 type TLoginPayload = {
@@ -22,14 +25,19 @@ type TLoginPayload = {
 const storeKey = 'auth'
 
 export const useAuthStore = defineStore(storeKey, {
-  state: (): TAuthState => ({
-    token: '',
-    role: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    menu: [],
-  }),
+  state: (): TAuthState => {
+    const auth = storejs.get($authStoreKey)
+    const { token, menus, user } = auth || {}
+    const { role, firstName, lastName, email } = user || {}
+    return {
+      token,
+      role,
+      firstName,
+      lastName,
+      email,
+      menus,
+    }
+  },
   getters: {
     getToken(): string {
       return this.token
@@ -49,21 +57,31 @@ export const useAuthStore = defineStore(storeKey, {
     getEmail(): string {
       return this.email
     },
-    getMenu(): string[] {
-      return this.menu
+    getMenus(): string[] {
+      return this.menus
     },
   },
   actions: {
     async login(payload: TLoginPayload): Promise<void> {
+      const { handleAxiosError } = useErrorStore()
+      const { showSuccess } = useNotificationStore()
       try {
         const resp = await axios.post(_apiLoginUrl, payload)
-        const { data } = resp.data
+        const { data, message } = resp.data
+        const { token, role, firstName, lastName, email, menus } = data
         storejs.remove($authStoreKey)
         storejs.set($authStoreKey, data)
+        this.token = token
+        this.role = role
+        this.firstName = firstName
+        this.lastName = lastName
+        this.email = email
+        this.menus = menus
+        showSuccess(message)
+        return Promise.resolve()
       } catch (error) {
-        console.error(error)
+        handleAxiosError(error as AxiosError)
       }
     },
-    
   },
 })

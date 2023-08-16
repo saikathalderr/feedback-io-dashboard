@@ -4,6 +4,7 @@ import { MailTwoTone, LockTwoTone, ShopTwoTone } from '@ant-design/icons-vue'
 import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/pinia/useAuth'
+
 const router = useRouter()
 
 interface FormState {
@@ -12,7 +13,8 @@ interface FormState {
   password: string
 }
 
-const storeCode = router.currentRoute.value.query.storeCode as string
+const storeCode = router.currentRoute.value.params.storeCode as string
+
 const formState = reactive<FormState>({
   storeCode,
   email: '',
@@ -20,6 +22,7 @@ const formState = reactive<FormState>({
 })
 
 const authStore = useAuthStore()
+
 const { login } = authStore
 
 const onFinish = async (values: any) => {  
@@ -30,6 +33,7 @@ const onFinish = async (values: any) => {
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo)
 }
+
 const disabled = computed(() => {
   return !(formState.email && formState.password && formState.storeCode)
 })
@@ -50,7 +54,7 @@ const disabled = computed(() => {
           name="storeCode"
           :rules="[{ required: true, message: 'Please input store code!' }]"
         >
-          <a-input v-model:value="formState.storeCode" placeholder="Store code">
+          <a-input v-model:value="formState.storeCode" placeholder="Store code" disabled>
             <template #prefix>
               <ShopTwoTone />
             </template>
@@ -59,7 +63,12 @@ const disabled = computed(() => {
         
         <a-form-item
           name="email"
-          :rules="[{ required: true, message: 'Please input your email!' }]"
+          :rules="[
+            {
+              required: true,
+              message: 'The input is not valid E-mail!',
+              type: 'email'
+            }]"
         >
           <a-input v-model:value="formState.email" placeholder="Email">
             <template #prefix>

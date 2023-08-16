@@ -2,6 +2,8 @@ import './style.css'
 import 'ant-design-vue/dist/reset.css'
 
 import {
+  Breadcrumb,
+  BreadcrumbItem,
   Button,
   Checkbox,
   Col,
@@ -9,7 +11,15 @@ import {
   FormItem,
   Input,
   InputPassword,
+  Layout,
+  LayoutContent,
+  LayoutFooter,
+  LayoutHeader,
+  Menu,
+  MenuItem,
   Row,
+  Slider,
+  SubMenu
 } from 'ant-design-vue'
 
 import App from './App.vue'
@@ -30,6 +40,16 @@ app.use(Input)
 app.use(Checkbox)
 app.use(Row)
 app.use(Col)
+app.use(Layout)
+app.use(Menu)
+app.use(Breadcrumb)
+app.use(Slider)
+app.use(SubMenu)
+app.use(MenuItem)
+app.use(LayoutHeader)
+app.use(LayoutContent)
+app.use(BreadcrumbItem)
+app.use(LayoutFooter)
 app.use(FormItem)
 app.use(InputPassword)
 
