@@ -2,11 +2,14 @@ import './style.css'
 import 'ant-design-vue/dist/reset.css'
 
 import {
+  Badge,
   Breadcrumb,
   BreadcrumbItem,
   Button,
   Checkbox,
   Col,
+  Dropdown,
+  DropdownButton,
   Form,
   FormItem,
   Input,
@@ -21,6 +24,10 @@ import {
   Row,
   Slider,
   SubMenu,
+  Table,
+  Tabs,
+  Tag,
+  Tooltip,
 } from 'ant-design-vue'
 
 import App from './App.vue'
@@ -46,6 +53,12 @@ app.use(Menu)
 app.use(Breadcrumb)
 app.use(Slider)
 app.use(PageHeader)
+app.use(Tag)
+app.use(Tooltip)
+app.use(Tabs)
+app.use(Table)
+app.use(Badge)
+app.use(Dropdown)
 app.use(SubMenu)
 app.use(MenuItem)
 app.use(LayoutHeader)
@@ -54,5 +67,6 @@ app.use(BreadcrumbItem)
 app.use(LayoutFooter)
 app.use(FormItem)
 app.use(InputPassword)
+app.use(DropdownButton)
 
 app.mount('#app')
