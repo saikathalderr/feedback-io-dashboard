@@ -4,7 +4,9 @@ import { $authStoreKey } from './storejs/keys'
 import Dashboard from '@/pages/dashboard.vue'
 import Developer from '@/pages/developer.vue'
 import Login from '@/pages/auth/login.vue'
+import Profile from '@/pages/profile.vue'
 import Reviews from '@/pages/reviews.vue'
+import Settings from '@/pages/settings.vue'
 import Users from '@/pages/users.vue'
 import storejs from 'store'
 
@@ -27,6 +29,16 @@ const routes = [
         path: '/developer',
         component: Developer,
         meta: { title: 'Developer' },
+      },
+      {
+        path: '/profile',
+        component: Profile,
+        meta: { title: 'Profile' },
+      },
+      {
+        path: '/settings',
+        component: Settings,
+        meta: { title: 'Settings' },
       }
     ],
   },

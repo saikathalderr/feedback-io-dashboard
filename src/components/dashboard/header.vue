@@ -38,10 +38,10 @@ const headerStyle: CSSProperties = {
       <template #overlay>
         <a-menu>
           <a-menu-item>
-            <RouterLink to="/dashboard/profile"> Profile </RouterLink>
+            <RouterLink to="/profile"> Profile </RouterLink>
           </a-menu-item>
           <a-menu-item>
-            <RouterLink to="/dashboard/settings"> Settings </RouterLink>
+            <RouterLink to="/settings"> Settings </RouterLink>
           </a-menu-item>
           <a-menu-item @click="handleLogout"> Logout </a-menu-item>
         </a-menu>
