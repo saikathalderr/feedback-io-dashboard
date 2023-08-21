@@ -7,6 +7,7 @@ import {
   EditOutlined,
   CheckOutlined,
   DashboardOutlined,
+  EyeTwoTone,
 } from '@ant-design/icons-vue'
 import { useApiKeysStore } from '@/pinia/useApiKeys'
 import { storeToRefs } from 'pinia'
@@ -43,6 +44,7 @@ const {
   deleteApiKey,
   updateApiKeyName,
   createApiKey,
+  fetchDecryptedApiKey,
 } = apiKeysStore
 const { getApiKeys, creatingApiKey } = storeToRefs(apiKeysStore)
 
@@ -83,7 +85,11 @@ const handleCopyToClipboard = (key: string) => {
   navigator.clipboard.writeText(key)
 }
 
-const keyStyle: CSSProperties = {
+const encryptedKeyStyle: CSSProperties = {
+  userSelect: 'none',
+  filter: 'blur(3px)',
+}
+const decryptedKeyStyle: CSSProperties = {
   userSelect: 'none',
 }
 const deleteStyle: CSSProperties = {
@@ -98,50 +104,81 @@ const usageStyle: CSSProperties = {
 const enableStyle: CSSProperties = {
   color: 'green',
 }
+const editableCellStyles: CSSProperties = {
+  position: 'relative',
+}
+const editableCellInputWrapperStyles: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '5px',
+}
+const tableStyles: CSSProperties = {
+  background: '#fff',
+}
+const tableHeaderStyles: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'flex-start',
+  paddingBottom: '10px',
+}
 </script>
 
 <template>
-  <a-table :columns="columns" :data-source="getApiKeys" size="small">
+  <a-table
+    :columns="columns"
+    :data-source="getApiKeys"
+    size="small"
+    :style="tableStyles"
+  >
     <template #bodyCell="{ column, text, record }">
       <template v-if="column.dataIndex === 'name'">
-        <div class="editable-cell">
+        <div :style="editableCellStyles">
           <div
             v-if="editableData[record.key]"
-            class="editable-cell-input-wrapper"
+            :style="editableCellInputWrapperStyles"
           >
             <a-input
               v-model:value="editableData[record.key].name"
               @pressEnter="save(record.key)"
             />
-            <CheckOutlined
-              class="editable-cell-icon-check"
-              @click="save(record.key)"
-            />
+            <CheckOutlined @click="save(record.key)" />
           </div>
-          <div v-else class="editable-cell-text-wrapper">
+          <div v-else>
             {{ text || ' ' }}
-            <EditOutlined
-              class="editable-cell-icon"
-              @click="edit(record.key)"
-            />
+            <EditOutlined @click="edit(record.key)" />
           </div>
         </div>
       </template>
       <template v-if="column.dataIndex === 'key'">
-        <a-tooltip title="Copy">
+        <a-tooltip title="Show" v-if="!record.decryptedKey">
           <a-button
             type="ghost"
             size="small"
             ghost
-            @click="() => handleCopyToClipboard(text)"
+            @click="() => fetchDecryptedApiKey(text)"
+          >
+            <template #icon>
+              <EyeTwoTone />
+            </template>
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="Copy" v-if="record.decryptedKey">
+          <a-button
+            type="ghost"
+            size="small"
+            ghost
+            @click="() => handleCopyToClipboard(record.decryptedKey)"
           >
             <template #icon>
               <CopyTwoTone />
             </template>
           </a-button>
         </a-tooltip>
-        <span :style="keyStyle">
-          {{ text }}
+        <span :style="encryptedKeyStyle" v-if="!record.decryptedKey">
+          {{ record.key }}
+        </span>
+        <span :style="decryptedKeyStyle" v-if="record.decryptedKey">
+          {{ record.decryptedKey }}
         </span>
       </template>
       <template v-if="column.dataIndex === 'isActive'">
@@ -200,24 +237,15 @@ const enableStyle: CSSProperties = {
       </template>
     </template>
     <template #title>
-      <a-button
-        type="primary"
-        @click="() => createApiKey()"
-        :loading="creatingApiKey"
-      >
-        Create API Key
-      </a-button>
+      <div :style="tableHeaderStyles">
+        <a-button
+          type="primary"
+          @click="() => createApiKey()"
+          :loading="creatingApiKey"
+        >
+          Create API Key
+        </a-button>
+      </div>
     </template>
   </a-table>
 </template>
-
-<style scoped>
-.editable-cell {
-  position: relative;
-}
-.editable-cell-input-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>

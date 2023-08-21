@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineAsyncComponent, watch, ref } from 'vue'
 import { useRouter } from 'vue-router';
-const apiKeys = defineAsyncComponent(() => import('@/components/dashboard/developer/apiKeys.vue'))
+const apiKeysTable = defineAsyncComponent(() => import('@/components/dashboard/developer/apiKeysTable.vue'))
 const usage = defineAsyncComponent(() => import('@/components/dashboard/developer/usage.vue'))
 
 const router = useRouter()
@@ -10,7 +10,7 @@ const tabs = [
   {
     key: 'api-keys',
     tab: 'API Keys',
-    component: apiKeys
+    component: apiKeysTable
   },
   {
     key: 'usage',

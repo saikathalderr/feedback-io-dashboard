@@ -2,6 +2,7 @@ import './style.css'
 import 'ant-design-vue/dist/reset.css'
 
 import {
+  Avatar,
   Badge,
   Breadcrumb,
   BreadcrumbItem,
@@ -59,6 +60,7 @@ app.use(Tabs)
 app.use(Table)
 app.use(Badge)
 app.use(Dropdown)
+app.use(Avatar)
 app.use(SubMenu)
 app.use(MenuItem)
 app.use(LayoutHeader)

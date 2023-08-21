@@ -9,3 +9,6 @@ export const _apiGetTenantDecryptedApiKeyUrl = `${_apiUrl}/dashboard/tenant/api-
 export const _apiCreateTenantApiKeyUrl = `${_apiUrl}/dashboard/tenant/api-key/create`
 export const _apiUpdateTenantApiKeyUrl = `${_apiUrl}/dashboard/tenant/api-key/{{apiKey}}/update`
 export const _apiDeleteTenantApiKeyUrl = `${_apiUrl}/dashboard/tenant/api-key/{{apiKey}}/delete`
+
+// Tenant users API URL paths
+export const _apiGetTenantUsersUrl = `${_apiUrl}/dashboard/tenant/users/list`

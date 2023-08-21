@@ -17,6 +17,7 @@ type MenuClickEvent = {
 }
 
 const selectedKeys = ref<string[]>([])
+const openKeys = ref<string[]>([])
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -31,7 +32,9 @@ watch(
   () => router.currentRoute.value.path,
   (path) => {
     const menu = menus.value.findIndex((menu) => menu.path === path)
-    selectedKeys.value = [String(menu + 1)]
+    const key = String(menu + 1)
+    selectedKeys.value = [key]
+    openKeys.value = [key]
   },
   { immediate: true },
 )
@@ -44,9 +47,9 @@ const handleMenuClick = (event: MenuClickEvent) => {
 const siderStyle: CSSProperties = {
   padding: '20px',
   background: '#fff',
-  borderTopRightRadius: '20px',
-  borderBottomRightRadius: '20px',
-  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  borderRadius: '20px',
+  boxShadow: '0 0 5px rgba(64, 123, 255, 0.2)',
+  // border: '2px solid rgba(64, 123, 255, 0.9)',
 }
 
 const menuStyle: CSSProperties = {
@@ -57,9 +60,10 @@ const menuStyle: CSSProperties = {
 </script>
 
 <template>
-  <a-layout-sider width="220" :style="siderStyle">
+  <a-layout-sider width="200" :style="siderStyle">
     <a-menu
       v-model:selectedKeys="selectedKeys"
+      v-model:openKeys="openKeys"
       mode="inline"
       theme="light"
       :style="menuStyle"

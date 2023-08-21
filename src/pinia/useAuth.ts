@@ -1,8 +1,10 @@
+import { AppstoreTwoTone, CodeTwoTone, IdcardTwoTone, StarTwoTone } from '@ant-design/icons-vue'
 import axios, { AxiosError } from 'axios'
 
 import { $authStoreKey } from '@/storejs/keys'
 import { _apiLoginUrl } from './api'
 import { defineStore } from 'pinia'
+import { h } from 'vue'
 import storejs from 'store'
 import { useErrorStore } from './useError'
 import { useNotificationStore } from './useNotification'
@@ -14,6 +16,7 @@ type TAuthState = {
   lastName: string
   email: string
   menus: string[]
+  storeCode: string
 }
 
 type TLoginPayload = {
@@ -22,13 +25,52 @@ type TLoginPayload = {
   password: string
 }
 
+type TMenu = {
+  key: string
+  label: string
+  title: string
+  path: string
+  icon: any
+}
+
 const storeKey = 'auth'
+
+const staticMenus: TMenu[] = [
+  {
+    "key": "1",
+    "label": "Dashboard",
+    "title": "Dashboard",
+    "path": "/",
+    "icon": h(AppstoreTwoTone)
+  },
+  {
+    "key": "2",
+    "label": "Reviews",
+    "title": "Reviews",
+    "path": "/reviews",
+    "icon": h(StarTwoTone)
+  },
+  {
+    "key": "3",
+    "label": "Developer",
+    "title": "Developer",
+    "path": "/developer",
+    "icon": h(CodeTwoTone)
+  },
+  {
+    "key": "4",
+    "label": "Users",
+    "title": "Users",
+    "path": "/users",
+    "icon": h(IdcardTwoTone)
+  },
+]
 
 export const useAuthStore = defineStore(storeKey, {
   state: (): TAuthState => {
     const auth = storejs.get($authStoreKey)
     const { token, menus, user } = auth || {}
-    const { role, firstName, lastName, email } = user || {}
+    const { role, firstName, lastName, email, storeCode } = user || {}
     return {
       token,
       role,
@@ -36,6 +78,7 @@ export const useAuthStore = defineStore(storeKey, {
       lastName,
       email,
       menus,
+      storeCode,
     }
   },
   getters: {
@@ -57,8 +100,11 @@ export const useAuthStore = defineStore(storeKey, {
     getEmail(): string {
       return this.email
     },
-    getMenus(): string[] {
-      return this.menus
+    getMenus(): TMenu[] {
+      return staticMenus
+    },
+    getStoreCode(): string {
+      return this.storeCode
     },
   },
   actions: {
@@ -82,6 +128,15 @@ export const useAuthStore = defineStore(storeKey, {
       } catch (error) {
         handleAxiosError(error as AxiosError)
       }
+    },
+    logout(): void {
+      storejs.remove($authStoreKey)
+      this.token = ''
+      this.role = ''
+      this.firstName = ''
+      this.lastName = ''
+      this.email = ''
+      this.menus = []
     },
   },
 })
