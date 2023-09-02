@@ -48,8 +48,8 @@ const siderStyle: CSSProperties = {
   padding: '20px',
   background: '#fff',
   borderRadius: '10px',
-  boxShadow: '0 0 5px rgba(64, 123, 255, 0.2)',
-  // border: '2px solid rgba(64, 123, 255, 0.9)',
+  boxShadow: '0 0 5px rgba(64, 123, 255, 0.3)',
+  borderRight: '1px solid rgba(64, 123, 255, 0.2)',
 }
 
 const menuStyle: CSSProperties = {

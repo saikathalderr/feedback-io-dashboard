@@ -6,12 +6,10 @@ import Breadcrumb from '@/components/dashboard/breadcrumb.vue'
 
 const layoutStyle: CSSProperties = {
   height: '100vh',
-  padding: '24px',
   background: '#fff',
 }
 
 const innerLayoutStyle: CSSProperties = {
-  padding: '24px 0',
   height: '100%',
   background: '#fff',
 }

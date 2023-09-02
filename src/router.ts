@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import { $authStoreKey } from './storejs/keys'
+import Attributes from './pages/attributes.vue'
 import Dashboard from '@/pages/dashboard.vue'
 import Developer from '@/pages/developer.vue'
 import Login from '@/pages/auth/login.vue'
@@ -8,6 +9,7 @@ import Profile from '@/pages/profile.vue'
 import Reviews from '@/pages/reviews.vue'
 import Settings from '@/pages/settings.vue'
 import Users from '@/pages/users.vue'
+import products from './pages/products.vue'
 import storejs from 'store'
 
 const routes = [
@@ -39,7 +41,17 @@ const routes = [
         path: '/settings',
         component: Settings,
         meta: { title: 'Settings' },
-      }
+      },
+      {
+        path: '/products',
+        component: products,
+        meta: { title: 'Products' },
+      },
+      {
+        path: '/attributes',
+        component: Attributes,
+        meta: { title: 'Attributes' },
+      },
     ],
   },
   {

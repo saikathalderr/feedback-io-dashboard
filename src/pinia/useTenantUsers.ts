@@ -6,7 +6,7 @@ import { setAuthorizationHeaders } from './headers'
 import { useAuthStore } from './useAuth'
 import { useErrorStore } from './useError'
 
-enum TenantUserRole {
+export enum TenantUserRole {
   ADMIN = 'ADMIN',
   MEMBER = 'MEMBER',
   DEVELOPER = 'DEVELOPER',

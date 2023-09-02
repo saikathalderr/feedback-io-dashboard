@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CSSProperties } from 'vue'
 import Logo from '@/assets/feedback-io.svg'
-import { UserOutlined } from '@ant-design/icons-vue'
+import { UserOutlined, LogoutOutlined } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/pinia/useAuth'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
@@ -38,12 +38,12 @@ const headerStyle: CSSProperties = {
       <template #overlay>
         <a-menu>
           <a-menu-item>
-            <RouterLink to="/profile"> Profile </RouterLink>
+            <RouterLink to="/profile"> <UserOutlined /> Profile </RouterLink>
           </a-menu-item>
-          <a-menu-item>
-            <RouterLink to="/settings"> Settings </RouterLink>
+          <a-menu-item @click="handleLogout">
+            <LogoutOutlined />
+            Logout
           </a-menu-item>
-          <a-menu-item @click="handleLogout"> Logout </a-menu-item>
         </a-menu>
       </template>
     </a-dropdown-button>

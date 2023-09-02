@@ -1,4 +1,12 @@
-import { AppstoreTwoTone, CodeTwoTone, IdcardTwoTone, StarTwoTone } from '@ant-design/icons-vue'
+import {
+  AppstoreTwoTone,
+  BuildTwoTone,
+  CodeTwoTone,
+  IdcardTwoTone,
+  SettingTwoTone,
+  SkinTwoTone,
+  StarTwoTone
+} from '@ant-design/icons-vue'
 import axios, { AxiosError } from 'axios'
 
 import { $authStoreKey } from '@/storejs/keys'
@@ -37,32 +45,53 @@ const storeKey = 'auth'
 
 const staticMenus: TMenu[] = [
   {
-    "key": "1",
-    "label": "Dashboard",
-    "title": "Dashboard",
-    "path": "/",
-    "icon": h(AppstoreTwoTone)
+    key: '1',
+    label: 'Dashboard',
+    title: 'Dashboard',
+    path: '/',
+    icon: h(AppstoreTwoTone),
   },
   {
-    "key": "2",
-    "label": "Reviews",
-    "title": "Reviews",
-    "path": "/reviews",
-    "icon": h(StarTwoTone)
+    key: '2',
+    label: 'Reviews',
+    title: 'Reviews',
+    path: '/reviews',
+    icon: h(StarTwoTone),
   },
   {
-    "key": "3",
-    "label": "Developer",
-    "title": "Developer",
-    "path": "/developer",
-    "icon": h(CodeTwoTone)
+    key: '3',
+    label: 'Products',
+    title: 'Products',
+    path: '/products',
+    icon: h(SkinTwoTone),
   },
   {
-    "key": "4",
-    "label": "Users",
-    "title": "Users",
-    "path": "/users",
-    "icon": h(IdcardTwoTone)
+    key: '4',
+    label: 'Attributes',
+    title: 'Attributes',
+    path: '/attributes',
+    icon: h(BuildTwoTone),
+  },
+  {
+    key: '5',
+    label: 'Developer',
+    title: 'Developer',
+    path: '/developer',
+    icon: h(CodeTwoTone),
+  },
+  {
+    key: '6',
+    label: 'Users',
+    title: 'Users',
+    path: '/users',
+    icon: h(IdcardTwoTone),
+  },
+  {
+    key: '7',
+    label: 'Settings',
+    title: 'Settings',
+    path: '/settings',
+    icon: h(SettingTwoTone),
   },
 ]
 

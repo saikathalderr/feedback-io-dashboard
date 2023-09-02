@@ -60,7 +60,7 @@ const getStatus = (
 } => {
   return {
     color: active ? 'green' : 'red',
-    title: active ? 'Active' : 'Revoked',
+    title: active ? 'Active' : 'Disabled',
   }
 }
 

@@ -21,8 +21,10 @@ import {
   LayoutHeader,
   Menu,
   MenuItem,
+  Modal,
   PageHeader,
   Row,
+  Select,
   Slider,
   SubMenu,
   Table,
@@ -61,6 +63,8 @@ app.use(Table)
 app.use(Badge)
 app.use(Dropdown)
 app.use(Avatar)
+app.use(Modal)
+app.use(Select)
 app.use(SubMenu)
 app.use(MenuItem)
 app.use(LayoutHeader)
