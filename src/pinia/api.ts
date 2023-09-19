@@ -12,3 +12,4 @@ export const _apiDeleteTenantApiKeyUrl = `${_apiUrl}/dashboard/tenant/api-key/{{
 
 // Tenant users API URL paths
 export const _apiGetTenantUsersUrl = `${_apiUrl}/dashboard/tenant/users/list`
+export const _apiSentTenantUserSignupInviteUrl = `${_apiUrl}/dashboard/tenant/users/send-signup-invitation`

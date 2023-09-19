@@ -1,6 +1,6 @@
+import { _apiGetTenantUsersUrl, _apiSentTenantUserSignupInviteUrl } from './api'
 import axios, { AxiosError } from 'axios'
 
-import { _apiGetTenantUsersUrl } from './api'
 import { defineStore } from 'pinia'
 import { setAuthorizationHeaders } from './headers'
 import { useAuthStore } from './useAuth'
@@ -25,6 +25,12 @@ type TTenantUser = {
 type TTenantUsersState = {
   tenantUsers: TTenantUser[]
   loadingTenantUsers: boolean
+  sendingTenantUserSignupInvite: boolean
+}
+
+type TTriggerUserSignupInvitationOfTenant = {
+  email: string
+  role: TenantUserRole
 }
 
 const storeKey = 'tenantUsers'
@@ -33,6 +39,7 @@ export const useTenantUsersStore = defineStore(storeKey, {
   state: (): TTenantUsersState => ({
     tenantUsers: [],
     loadingTenantUsers: false,
+    sendingTenantUserSignupInvite: false
   }),
   getters: {
     getTenantUsers(): TTenantUser[] {
@@ -60,5 +67,25 @@ export const useTenantUsersStore = defineStore(storeKey, {
         handleAxiosError(error as AxiosError)
       }
     },
+    async triggerUserSignupInvitationOfTenant(args: TTriggerUserSignupInvitationOfTenant): Promise<void> {
+      const { handleAxiosError } = useErrorStore()
+      const { getToken } = useAuthStore()
+      try {
+        const { email, role } = args
+        this.sendingTenantUserSignupInvite = true
+        await axios.post(_apiSentTenantUserSignupInviteUrl, {
+          email,
+          role
+        } ,{
+          headers: {
+            ...setAuthorizationHeaders(getToken),
+          },
+        },)
+        this.sendingTenantUserSignupInvite = false
+      } catch (error) {
+        this.sendingTenantUserSignupInvite = false
+        handleAxiosError(error as AxiosError)
+      }
+    }
   },
 })

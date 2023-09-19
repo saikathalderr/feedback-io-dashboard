@@ -16,16 +16,16 @@ const { tenantUsers } = storeToRefs(tenantUserStore)
 
 const columns = [
   {
+    title: 'Email',
+    dataIndex: 'email',
+  },
+  {
     title: 'First Name',
     dataIndex: 'firstName',
   },
   {
     title: 'Last Name',
     dataIndex: 'lastName',
-  },
-  {
-    title: 'Email',
-    dataIndex: 'email',
   },
   {
     title: 'Role',
@@ -82,7 +82,7 @@ const enableStyle: CSSProperties = {
           <CrownFilled />
           {{ text }}
         </a-tag>
-        <a-tag color="green" v-if="text === 'MEMBER'">
+        <a-tag color="blue" v-if="text === 'MEMBER'">
           <SmileFilled />
           {{ text }}
         </a-tag>
