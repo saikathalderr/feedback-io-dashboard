@@ -17,7 +17,7 @@ const handleLogout = async () => {
 }
 
 const headerStyle: CSSProperties = {
-  background: '#fff',
+  background: '#fcfcfc',
   padding: 0,
   display: 'flex',
   justifyContent: 'space-between',

@@ -17,6 +17,7 @@ watch(
 
 const breadcrumbStyle: CSSProperties = {
   margin: '16px 0',
+  marginTop: 0
 }
 </script>
 

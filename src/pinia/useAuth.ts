@@ -1,11 +1,11 @@
 import {
-  AppstoreTwoTone,
-  BuildTwoTone,
-  CodeTwoTone,
-  IdcardTwoTone,
-  SettingTwoTone,
-  SkinTwoTone,
-  StarTwoTone
+  AppstoreFilled,
+  BuildFilled,
+  CodeFilled,
+  IdcardFilled,
+  SettingFilled,
+  SkinFilled,
+  StarFilled
 } from '@ant-design/icons-vue'
 import axios, { AxiosError } from 'axios'
 
@@ -49,49 +49,49 @@ const staticMenus: TMenu[] = [
     label: 'Dashboard',
     title: 'Dashboard',
     path: '/',
-    icon: h(AppstoreTwoTone),
+    icon: h(AppstoreFilled),
   },
   {
     key: '2',
     label: 'Reviews',
     title: 'Reviews',
     path: '/reviews',
-    icon: h(StarTwoTone),
+    icon: h(StarFilled),
   },
   {
     key: '3',
     label: 'Products',
     title: 'Products',
     path: '/products',
-    icon: h(SkinTwoTone),
+    icon: h(SkinFilled),
   },
   {
     key: '4',
     label: 'Attributes',
     title: 'Attributes',
     path: '/attributes',
-    icon: h(BuildTwoTone),
+    icon: h(BuildFilled),
   },
   {
     key: '5',
     label: 'Developer',
     title: 'Developer',
     path: '/developer',
-    icon: h(CodeTwoTone),
+    icon: h(CodeFilled),
   },
   {
     key: '6',
     label: 'Users',
     title: 'Users',
     path: '/users',
-    icon: h(IdcardTwoTone),
+    icon: h(IdcardFilled),
   },
   {
     key: '7',
     label: 'Settings',
     title: 'Settings',
     path: '/settings',
-    icon: h(SettingTwoTone),
+    icon: h(SettingFilled),
   },
 ]
 

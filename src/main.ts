@@ -7,8 +7,10 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Button,
+  Card,
   Checkbox,
   Col,
+  Divider,
   Dropdown,
   DropdownButton,
   Form,
@@ -23,6 +25,7 @@ import {
   MenuItem,
   Modal,
   PageHeader,
+  Rate,
   Row,
   Select,
   Slider,
@@ -74,5 +77,8 @@ app.use(LayoutFooter)
 app.use(FormItem)
 app.use(InputPassword)
 app.use(DropdownButton)
+app.use(Card)
+app.use(Divider)
+app.use(Rate)
 
 app.mount('#app')

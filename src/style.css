@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Changa+One&display=swap');
 
+body {
+  background: #fcfcfc;
+}
 .logo {
   font-family: 'Changa One', cursive;
+}
+
+*::-webkit-scrollbar {
+  width: .7em;
+}
+  
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(166, 166, 166);
+  border-radius: 2px;
 }

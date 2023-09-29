@@ -39,7 +39,7 @@ export const useTenantUsersStore = defineStore(storeKey, {
   state: (): TTenantUsersState => ({
     tenantUsers: [],
     loadingTenantUsers: false,
-    sendingTenantUserSignupInvite: false
+    sendingTenantUserSignupInvite: false,
   }),
   getters: {
     getTenantUsers(): TTenantUser[] {
@@ -59,7 +59,7 @@ export const useTenantUsersStore = defineStore(storeKey, {
           headers: {
             ...setAuthorizationHeaders(getToken),
           },
-        })        
+        })
         this.tenantUsers = resp.data.data
         this.loadingTenantUsers = false
       } catch (error) {
@@ -67,25 +67,31 @@ export const useTenantUsersStore = defineStore(storeKey, {
         handleAxiosError(error as AxiosError)
       }
     },
-    async triggerUserSignupInvitationOfTenant(args: TTriggerUserSignupInvitationOfTenant): Promise<void> {
+    async triggerUserSignupInvitationOfTenant(
+      args: TTriggerUserSignupInvitationOfTenant,
+    ): Promise<void> {
       const { handleAxiosError } = useErrorStore()
       const { getToken } = useAuthStore()
       try {
         const { email, role } = args
         this.sendingTenantUserSignupInvite = true
-        await axios.post(_apiSentTenantUserSignupInviteUrl, {
-          email,
-          role
-        } ,{
-          headers: {
-            ...setAuthorizationHeaders(getToken),
+        await axios.post(
+          _apiSentTenantUserSignupInviteUrl,
+          {
+            email,
+            role,
           },
-        },)
+          {
+            headers: {
+              ...setAuthorizationHeaders(getToken),
+            },
+          },
+        )
         this.sendingTenantUserSignupInvite = false
       } catch (error) {
         this.sendingTenantUserSignupInvite = false
         handleAxiosError(error as AxiosError)
       }
-    }
+    },
   },
 })
