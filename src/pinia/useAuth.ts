@@ -111,6 +111,9 @@ export const useAuthStore = defineStore(storeKey, {
     }
   },
   getters: {
+    isAuthenticated(): boolean {
+      return !!this.token
+    },
     getToken(): string {
       return this.token
     },

@@ -1,5 +1,6 @@
 import { AxiosError } from "axios"
 import { defineStore } from "pinia"
+import { useAuthStore } from "./useAuth"
 import { useNotificationStore } from "./useNotification"
 
 const storeKey = 'error'
@@ -18,9 +19,15 @@ export const useErrorStore = defineStore(storeKey, {
     actions: {
         handleAxiosError(error: AxiosError): void {
             const { showError } = useNotificationStore()
+            const { logout } = useAuthStore() 
+
             const errorObj = error as TAxiosError
             const errorData = errorObj.response?.data?.error
-            console.log(errorData);
+            const errorStatus = errorObj.response?.status
+
+            if (errorStatus === 401) { // Unauthorized
+                logout()
+            }
             
             if (Array.isArray(errorData)) {
                 errorData.forEach((err) => showError(err.message))
