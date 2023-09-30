@@ -9,13 +9,11 @@ const layoutStyle: CSSProperties = {
   maxHeight: '100vh',
   background: '#fcfcfc',
 }
-
 const innerLayoutStyle: CSSProperties = {
   height: '100%',
   maxHeight: '100%',
   background: '#fcfcfc',
 }
-
 const innerLayoutContentStyle: CSSProperties = {
   padding: '0 24px',
   paddingBottom: '24px',

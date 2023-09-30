@@ -192,5 +192,8 @@ export const useReviewsStore = defineStore(storeKey, {
         this.loadingStatistics = false
       }
     },
+    fetchReviewById(id: string): TReview | undefined | null {
+      return this.reviews.find((review) => review.id === id)
+    },
   },
 })

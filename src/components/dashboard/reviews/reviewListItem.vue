@@ -5,6 +5,8 @@ import { CheckCircleTwoTone } from '@ant-design/icons-vue'
 import { Typography } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { useUiStore } from '@/pinia/useUI'
+import { useRouter } from 'vue-router'
 
 dayjs.extend(relativeTime)
 
@@ -14,10 +16,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-const { review } = props
-const { reviewerName, reviewerAvatar, rating, body, updatedAt, isActive } =
-  review
 
 const cardStyle: CSSProperties = {
   margin: '1rem 0',
@@ -29,10 +27,31 @@ const avatarStyle: CSSProperties = {
   borderRadius: '50%',
   marginRight: '0.5rem',
 }
+
+const { review } = props
+const { reviewerName, reviewerAvatar, rating, body, updatedAt, isActive } =
+  review
+
+const router = useRouter()
+const { openReviewDetailsModal } = useUiStore()
+
+const handleOpenReviewDetailsModal = () => {
+  openReviewDetailsModal()
+  router.replace({
+    query: {
+      reviewId: review.id,
+    },
+  })
+}
 </script>
 
 <template>
-  <a-card :loading="false" :style="cardStyle" hoverable>
+  <a-card
+    :loading="false"
+    :style="cardStyle"
+    hoverable
+    @click="handleOpenReviewDetailsModal()"
+  >
     <div>
       <span>
         <img :src="reviewerAvatar" :style="avatarStyle" loading="lazy" />
