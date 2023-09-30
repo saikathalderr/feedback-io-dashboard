@@ -16,3 +16,4 @@ export const _apiSentTenantUserSignupInviteUrl = `${_apiUrl}/dashboard/tenant/us
 
 // Reviews API URL paths
 export const _apiGetReviewsUrl = `${_apiUrl}/dashboard/review/list`
+export const _apiGetReviewsStatisticsUrl = `${_apiUrl}/dashboard/review/statistics`

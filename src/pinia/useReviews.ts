@@ -1,6 +1,6 @@
+import { _apiGetReviewsStatisticsUrl, _apiGetReviewsUrl } from './api'
 import axios, { AxiosError } from 'axios'
 
-import { _apiGetReviewsUrl } from './api'
 import { defineStore } from 'pinia'
 import { setAuthorizationHeaders } from './headers'
 import { useAuthStore } from './useAuth'
@@ -36,11 +36,27 @@ type TReviewsPagination = {
   hasPreviousPage: boolean
 }
 
+type TStatistic = {
+  total: number
+  percentage: number
+}
+
+type IReviewsStatistics = {
+  total: number
+  '1': TStatistic
+  '2': TStatistic
+  '3': TStatistic
+  '4': TStatistic
+  '5': TStatistic
+}
+
 type TReviewsState = {
   reviews: TReview[]
   total: number
   pagination: TReviewsPagination
   loadingReviews: boolean
+  statistics: IReviewsStatistics
+  loadingStatistics: boolean
 }
 
 type TFetchReviewsArgs = {
@@ -63,6 +79,30 @@ export const useReviewsStore = defineStore(storeKey, {
       hasPreviousPage: false,
     },
     loadingReviews: false,
+    statistics: {
+      total: 0,
+      '1': {
+        total: 0,
+        percentage: 0,
+      },
+      '2': {
+        total: 0,
+        percentage: 0,
+      },
+      '3': {
+        total: 0,
+        percentage: 0,
+      },
+      '4': {
+        total: 0,
+        percentage: 0,
+      },
+      '5': {
+        total: 0,
+        percentage: 0,
+      },
+    },
+    loadingStatistics: false,
   }),
   getters: {
     getReviews(): TReview[] {
@@ -70,6 +110,12 @@ export const useReviewsStore = defineStore(storeKey, {
     },
     isLoadingReviews(): boolean {
       return this.loadingReviews
+    },
+    getReviewsStatistics(): IReviewsStatistics {
+      return this.statistics
+    },
+    isLoadingReviewsStatistics(): boolean {
+      return this.loadingStatistics
     },
   },
   actions: {
@@ -103,6 +149,47 @@ export const useReviewsStore = defineStore(storeKey, {
         handleAxiosError(error as AxiosError)
       } finally {
         this.loadingReviews = false
+      }
+    },
+
+    async fetchReviewsStatistics(): Promise<void> {
+      const { handleAxiosError } = useErrorStore()
+      const { getToken } = useAuthStore()
+      try {
+        this.loadingStatistics = true
+        const url = `${_apiGetReviewsStatisticsUrl}`
+        const resp = await axios.get(url, {
+          headers: {
+            ...setAuthorizationHeaders(getToken),
+          },
+        })
+        this.statistics = (resp.data.data as IReviewsStatistics) || {
+          total: 0,
+          '1': {
+            total: 0,
+            percentage: 0,
+          },
+          '2': {
+            total: 0,
+            percentage: 0,
+          },
+          '3': {
+            total: 0,
+            percentage: 0,
+          },
+          '4': {
+            total: 0,
+            percentage: 0,
+          },
+          '5': {
+            total: 0,
+            percentage: 0,
+          },
+        }
+      } catch (error) {
+        handleAxiosError(error as AxiosError)
+      } finally {
+        this.loadingStatistics = false
       }
     },
   },

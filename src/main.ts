@@ -25,6 +25,7 @@ import {
   MenuItem,
   Modal,
   PageHeader,
+  Progress,
   Rate,
   Row,
   Select,
@@ -80,5 +81,6 @@ app.use(DropdownButton)
 app.use(Card)
 app.use(Divider)
 app.use(Rate)
+app.use(Progress)
 
 app.mount('#app')
