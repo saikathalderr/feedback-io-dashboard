@@ -2,5 +2,7 @@
 import UsersTable from '@/components/dashboard/users/usersTable.vue'
 </script>
 <template>
-  <UsersTable />
+  <a-card>
+    <UsersTable />
+  </a-card>
 </template>

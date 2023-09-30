@@ -12,7 +12,9 @@ const { getReviews, loadingReviews, total, pagination } =
   storeToRefs(reviewsStore)
 
 onMounted(async () => {
-  await fetchReviews()
+  if (!getReviews.value.length) {
+    await fetchReviews()
+  }
 })
 
 const handleLoadMore = async () => {
