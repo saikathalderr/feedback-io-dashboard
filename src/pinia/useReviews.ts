@@ -1,7 +1,12 @@
-import { _apiGetReviewsStatisticsUrl, _apiGetReviewsUrl } from './api'
+import {
+  _apiGetReviewsStatisticsUrl,
+  _apiGetReviewsUrl,
+  _apiSearchReviewsUrl,
+} from './api'
 import axios, { AxiosError } from 'axios'
 
 import { defineStore } from 'pinia'
+import { message } from 'ant-design-vue'
 import { setAuthorizationHeaders } from './headers'
 import { useAuthStore } from './useAuth'
 import { useErrorStore } from './useError'
@@ -57,6 +62,9 @@ type TReviewsState = {
   loadingReviews: boolean
   statistics: IReviewsStatistics
   loadingStatistics: boolean
+  searchQuery: string
+  searchResults: TReview[]
+  loadingSearchResults: boolean
 }
 
 type TFetchReviewsArgs = {
@@ -103,6 +111,9 @@ export const useReviewsStore = defineStore(storeKey, {
       },
     },
     loadingStatistics: false,
+    searchQuery: '',
+    searchResults: [],
+    loadingSearchResults: false,
   }),
   getters: {
     getReviews(): TReview[] {
@@ -125,6 +136,7 @@ export const useReviewsStore = defineStore(storeKey, {
 
       const { handleAxiosError } = useErrorStore()
       const { getToken } = useAuthStore()
+      const hide = message.loading('Fetching reviews...', 0)
       try {
         this.loadingReviews = true
         const url = `${_apiGetReviewsUrl}?page=${page}&limit=${limit}`
@@ -149,12 +161,59 @@ export const useReviewsStore = defineStore(storeKey, {
         handleAxiosError(error as AxiosError)
       } finally {
         this.loadingReviews = false
+        hide()
       }
+    },
+
+    async refreshReviews(): Promise<void> {
+      this.reviews = []
+      this.total = 0
+      this.pagination = {
+        page: 0,
+        limit: 0,
+        total: 0,
+        totalPages: 0,
+        hasNextPage: false,
+        hasPreviousPage: false,
+      }
+      this.loadingReviews = false
+      this.loadingStatistics = false
+      this.statistics = {
+        total: 0,
+        '1': {
+          total: 0,
+          percentage: 0,
+        },
+        '2': {
+          total: 0,
+          percentage: 0,
+        },
+        '3': {
+          total: 0,
+          percentage: 0,
+        },
+        '4': {
+          total: 0,
+          percentage: 0,
+        },
+        '5': {
+          total: 0,
+          percentage: 0,
+        },
+      }
+      this.loadingStatistics = false
+      this.searchQuery = ''
+      this.searchResults = []
+      this.loadingSearchResults = false
+
+      await this.fetchReviews()
+      await this.fetchReviewsStatistics()
     },
 
     async fetchReviewsStatistics(): Promise<void> {
       const { handleAxiosError } = useErrorStore()
       const { getToken } = useAuthStore()
+      const hide = message.loading('Fetching reviews statistics...', 0)
       try {
         this.loadingStatistics = true
         const url = `${_apiGetReviewsStatisticsUrl}`
@@ -190,10 +249,41 @@ export const useReviewsStore = defineStore(storeKey, {
         handleAxiosError(error as AxiosError)
       } finally {
         this.loadingStatistics = false
+        hide()
       }
     },
+
     fetchReviewById(id: string): TReview | undefined | null {
       return this.reviews.find((review) => review.id === id)
+    },
+
+    async fetchReviewsByKeyword(query: string): Promise<void> {
+      this.loadingSearchResults = true
+      this.loadingReviews = true
+      const { handleAxiosError } = useErrorStore()
+      const { getToken } = useAuthStore()
+      const hide = message.loading('Searching reviews...', 0)
+      try {
+        this.searchQuery = query
+        const url = `${_apiSearchReviewsUrl}`.replace(
+          '{{keyword}}',
+          encodeURIComponent(query),
+        )
+        const resp = await axios.get(url, {
+          headers: {
+            ...setAuthorizationHeaders(getToken),
+          },
+        })
+        this.searchResults = (resp.data.data.reviews as TReview[]) || []
+      } catch (error) {
+        handleAxiosError(error as AxiosError)
+      } finally {
+        this.loadingSearchResults = false
+        this.loadingReviews = false
+        setTimeout(() => {
+          hide()
+        }, 1000)
+      }
     },
   },
 })
